@@ -6,7 +6,6 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { message as Message } from 'antd';
 
 /* 服务器返回数据的的类型，根据接口文档确定 */
 export interface Result<T = unknown> {
@@ -26,7 +25,7 @@ service.interceptors.request.use(
     return config;
   },
   (error: AxiosError) => {
-    Message.error(error.message);
+    console.error(error.message);
     return Promise.reject(error);
   }
 );
@@ -42,7 +41,7 @@ service.interceptors.response.use(
       return data;
     } else {
       // 处理业务错误。
-      Message.error(message);
+      console.error(message);
       return Promise.reject(new Error(message));
     }
   },
@@ -69,7 +68,7 @@ service.interceptors.response.use(
         message = '网络连接故障';
     }
 
-    Message.error(message);
+    console.error(message);
     return Promise.reject(error);
   }
 );
