@@ -10,18 +10,7 @@ function App() {
     }, 1000);
   }, []);
 
-  return (
-    <main className="container mx-auto">
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <div className="h-16" />
-          <DictumList />
-        </>
-      )}
-    </main>
-  );
+  return <main className="container mx-auto">{isLoading ? <Loading /> : <DictumList />}</main>;
 }
 
 export default App;

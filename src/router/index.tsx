@@ -3,7 +3,8 @@ import App from '../App';
 import BookList from '../views/BookListView';
 import SearchPage from '../views/SearchView';
 import BookView from '../views/BookView';
-import Navbar from 'components/Navbar';
+import BookChapter from '../views/BookChapter';
+import Navbar from '../components/Navbar';
 
 const router = createBrowserRouter([
   {
@@ -34,11 +35,20 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/book/:url',
+    path: '/book/:name',
     element: (
       <>
         <Navbar />
         <BookView />
+      </>
+    ),
+  },
+  {
+    path: '/chapter/:url',
+    element: (
+      <>
+        <Navbar />
+        <BookChapter />
       </>
     ),
   },
