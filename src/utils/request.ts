@@ -17,7 +17,7 @@ export interface Result<T = unknown> {
 
 const service: AxiosInstance = axios.create({
   baseURL: '/api',
-  timeout: 0,
+  timeout: 6000,
 });
 
 /* 请求拦截器 */

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { http } from '../utils/request';
-import { Input, Button, Card, CardBody, CardFooter, Link } from '@nextui-org/react';
 import { uuid } from 'zhuba-tools';
 
 interface SearchResult {
@@ -42,11 +41,17 @@ const SearchPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <form onSubmit={handleSearch} className="flex mb-8">
-        <Input type="text" name="search" placeholder="输入书名搜索" className="flex-grow mr-2" />
-        <Button type="submit" color="primary" className="px-6">
+      <form onSubmit={handleSearch} className="flex mb-8 justify-between w-full">
+        <input
+          type="text"
+          name="search"
+          placeholder="输入书名搜索"
+          className="input input-bordered w-full mr-8"
+          style={{ outlineOffset: 0 }}
+        />
+        <button type="submit" className="btn px-6">
           搜索
-        </Button>
+        </button>
       </form>
 
       {loading ? (
@@ -54,25 +59,25 @@ const SearchPage = () => {
       ) : searchResults?.length > 0 ? (
         <div className="space-y-4">
           {searchResults.map((result) => (
-            <Card key={uuid()} className="w-full">
-              <CardBody>
+            <div key={uuid()} className="card w-full shadow-xl">
+              <div className="card-body">
                 <h2 className="text-xl font-semibold mb-2">
                   {result.name} {result.author}
                 </h2>
                 <p className="text-sm text-gray-600">{result.new}</p>
-              </CardBody>
-              <CardFooter>
-                <Link
-                  href={`/book/${encodeURIComponent(result.book[0].url)}`}
-                  className="text-blue-600 hover:underline mr-4"
-                >
-                  查看详情
-                </Link>
-                <Link href={result.newurl} className="text-green-600 hover:underline">
-                  阅读最新章节
-                </Link>
-              </CardFooter>
-            </Card>
+                <div>
+                  <a
+                    href={`/book/${encodeURIComponent(result.book[0].url)}`}
+                    className="text-blue-600 hover:underline mr-4 cursor-pointer"
+                  >
+                    查看详情
+                  </a>
+                  <a href={result.newurl} className="text-green-600 hover:underline cursor-pointer">
+                    阅读最新章节
+                  </a>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       ) : (

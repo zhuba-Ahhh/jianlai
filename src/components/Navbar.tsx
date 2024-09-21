@@ -2,30 +2,24 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-800 p-4 fixed w-full">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-white text-2xl font-bold">
+    <ul className="navbar bg-base-100">
+      <li className="navbar-start">
+        <Link to="/" className="text-2xl font-bold">
           剑来小说
         </Link>
-        <ul className="flex space-x-4">
-          <li>
-            <Link to="/" className="text-white hover:text-gray-300">
-              首页
-            </Link>
-          </li>
-          <li>
-            <Link to="/list" className="text-white hover:text-gray-300">
-              章节列表
-            </Link>
-          </li>
-          <li>
-            <Link to="/search" className="text-white hover:text-gray-300">
-              搜索
-            </Link>
-          </li>
-        </ul>
+      </li>
+      <div className="navbar-end flex-grow flex justify-end items-center space-x-4">
+        <li className="hover:text-gray-400">
+          <Link to="/">首页</Link>
+        </li>
+        <li className="hover:text-gray-400">
+          <Link to="/list">章节列表</Link>
+        </li>
+        <li className="hover:text-gray-400">
+          <Link to="/search">搜索</Link>
+        </li>
       </div>
-    </nav>
+    </ul>
   );
 };
 

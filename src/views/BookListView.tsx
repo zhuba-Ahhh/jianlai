@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { http } from '../utils/request';
-import { Card, CardBody, CardFooter, Image, Tabs, Tab } from '@nextui-org/react';
+
 import { useNavigate } from 'react-router-dom';
+
+import Loading from '../components/Loading';
+import Tabs from '../components/Tabs';
+import { Author } from 'assets/svg';
 
 interface Book {
   img: string;
@@ -24,8 +28,6 @@ interface BookListProps {
 }
 
 const categories = ['全部类型', '都市', '玄幻', '奇幻', '历史', '科幻', '军事', '游戏'];
-
-import Loading from '../components/Loading';
 
 const BookList = ({ initialCategory = '全部类型' }: BookListProps) => {
   const navigate = useNavigate();
@@ -65,6 +67,16 @@ const BookList = ({ initialCategory = '全部类型' }: BookListProps) => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="h-16" />
       <Tabs
+        initialActiveKey="全部类型"
+        tabs={categories.map((key) => ({
+          key,
+          label: key,
+        }))}
+        onChange={(key) => {
+          setCategory(key as Required<BookListProps['initialCategory']>);
+        }}
+      />
+      {/* <Tabs
         aria-label="书籍类别"
         selectedKey={category}
         onSelectionChange={(key) => {
@@ -79,28 +91,26 @@ const BookList = ({ initialCategory = '全部类型' }: BookListProps) => {
             className={`text-lg ${category === cat ? 'underline font-bold' : ''}`} // 选中时增加下划线和加粗
           />
         ))}
-      </Tabs>
+      </Tabs> */}
       <div className="h-8" />
       {loading ? (
         <Loading />
       ) : books?.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {books.map((book) => (
-            <Card
+            <div
               key={book.name}
-              isPressable
               onClick={() => JumpToTableOfContents(book.name)}
-              className="hover:shadow-lg hover:rounded-lg transition-shadow duration-300" // 增加圆角样式
+              className="card card-compact hover:shadow-lg hover:rounded-lg transition-shadow duration-300" // 增加圆角样式
             >
-              <CardBody className="p-0">
-                <Image
-                  src={book.img}
-                  alt={book.name}
-                  className="w-full h-64 object-contain mt-4" // 增加上边距
-                  removeWrapper
-                />
-              </CardBody>
-              <CardFooter className="flex-col items-start p-4">
+              {/* <CardBody className="p-0"> */}
+              <img
+                src={book.img}
+                alt={book.name}
+                className="w-full h-64 object-contain mt-4" // 增加上边距
+              />
+              {/* </CardBody> */}
+              <div className="card-body flex-col items-start p-4">
                 <h2 className="text-xl font-semibold mb-2">{book.name}</h2>
                 <p className="text-sm text-gray-600 line-clamp-2 mb-3">{book.desc}</p>
                 <div className="flex justify-between items-center w-full">
@@ -113,36 +123,17 @@ const BookList = ({ initialCategory = '全部类型' }: BookListProps) => {
                         setCategory(book.type as BookListProps['initialCategory']);
                       }
                     }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        if (category !== book.type) {
-                          setCategory(book.type as BookListProps['initialCategory']);
-                        }
-                      }
-                    }}
                   >
                     {book.type}
                   </span>
                   <span className="text-sm font-medium text-orange-500">热度: {book.hot}</span>
                 </div>
                 <div className="flex items-center space-x-1 mt-3 text-gray-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Author />
                   <p className="text-sm truncate">{book.author}</p>
                 </div>
-              </CardFooter>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       ) : (

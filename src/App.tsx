@@ -6,11 +6,22 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
-      // setIsLoading(false);
-    }, 10000);
+      setIsLoading(false);
+    }, 1000);
   }, []);
 
-  return <main className="container mx-auto">{isLoading ? <Loading /> : <DictumList />}</main>;
+  return (
+    <main className="container mx-auto">
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className="h-16" />
+          <DictumList />
+        </>
+      )}
+    </main>
+  );
 }
 
 export default App;

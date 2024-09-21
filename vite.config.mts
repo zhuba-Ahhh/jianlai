@@ -32,12 +32,7 @@ export default defineConfig({
       open: false,
     }),
     importToCDN({
-      modules: [
-        autoComplete('react'),
-        autoComplete('react-dom'),
-        autoComplete('react-router-dom'),
-        autoComplete('axios'),
-      ],
+      modules: [autoComplete('react'), autoComplete('react-dom'), autoComplete('axios')],
     }),
     viteImagemin({
       gifsicle: {
@@ -112,7 +107,7 @@ export default defineConfig({
         preset: 'recommended',
         manualPureFunctions: ['console.log'],
       },
-      external: ['react', 'react-dom', 'axios', 'react-router-dom'],
+      external: ['react', 'react-dom', 'axios'],
     },
     minify: 'terser', // 启用 terser 压缩
     terserOptions: {
