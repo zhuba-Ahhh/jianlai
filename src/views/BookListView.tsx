@@ -76,22 +76,6 @@ const BookList = ({ initialCategory = '全部类型' }: BookListProps) => {
           setCategory(key as Required<BookListProps['initialCategory']>);
         }}
       />
-      {/* <Tabs
-        aria-label="书籍类别"
-        selectedKey={category}
-        onSelectionChange={(key) => {
-          setCategory(key as Required<BookListProps['initialCategory']>);
-        }}
-        className="mb-6 border-b-2 border-gray-300 fixed w-full backdrop-blur-md bg-white/30" // 增加毛边玻璃特效
-      >
-        {categories.map((cat) => (
-          <Tab
-            key={cat}
-            title={cat}
-            className={`text-lg ${category === cat ? 'underline font-bold' : ''}`} // 选中时增加下划线和加粗
-          />
-        ))}
-      </Tabs> */}
       <div className="h-8" />
       {loading ? (
         <Loading />
@@ -103,13 +87,11 @@ const BookList = ({ initialCategory = '全部类型' }: BookListProps) => {
               onClick={() => JumpToTableOfContents(book.name)}
               className="card card-compact hover:shadow-lg hover:rounded-lg transition-shadow duration-300" // 增加圆角样式
             >
-              {/* <CardBody className="p-0"> */}
               <img
                 src={book.img}
                 alt={book.name}
                 className="w-full h-64 object-contain mt-4" // 增加上边距
               />
-              {/* </CardBody> */}
               <div className="card-body flex-col items-start p-4">
                 <h2 className="text-xl font-semibold mb-2">{book.name}</h2>
                 <p className="text-sm text-gray-600 line-clamp-2 mb-3">{book.desc}</p>
