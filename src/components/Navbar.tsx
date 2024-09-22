@@ -9,13 +9,13 @@ const Navbar = () => {
         </Link>
       </li>
       <div className="navbar-end flex-grow flex justify-end items-center space-x-4">
-        <li className="hover:text-gray-400">
+        <li className="hover:text-black transition duration-200 ease-in-out">
           <Link to="/">首页</Link>
         </li>
-        <li className="hover:text-gray-400">
+        <li className="hover:text-black transition duration-200 ease-in-out">
           <Link to="/list">小说列表</Link>
         </li>
-        <li className="hover:text-gray-400">
+        <li className="hover:text-black transition duration-200 ease-in-out">
           <Link to="/search">搜索</Link>
         </li>
       </div>

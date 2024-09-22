@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { http } from '../utils/request';
 import { uuid } from 'zhuba-tools';
+import { Author } from 'assets/svg';
 
 interface SearchResult {
+  img: string;
+  type: string;
   name: string;
   url: string;
   new: string;
@@ -57,24 +60,34 @@ const SearchPage = () => {
       {loading ? (
         <p className="text-center">正在搜索...</p>
       ) : searchResults?.length > 0 ? (
-        <div className="space-y-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {searchResults.map((result) => (
-            <div key={uuid()} className="card w-full shadow-xl">
-              <div className="card-body">
+            <div
+              key={uuid()}
+              className="card card-compact hover:shadow-lg hover:rounded-lg transition-shadow duration-300 cursor-pointer"
+            >
+              <img
+                src={`https://api.book.bbdaxia.com${result.img}`}
+                alt={result.name}
+                className="w-full h-64 object-contain mt-4" // 增加上边距
+              />
+              <div className="card-body flex-col items-start p-4">
                 <h2 className="text-xl font-semibold mb-2">
                   {result.name} {result.author}
                 </h2>
-                <p className="text-sm text-gray-600">{result.new}</p>
-                <div>
+                <p className="text-sm text-gray-600 line-clamp-4 mb-3">{result.desc}</p>
+                <div className="flex justify-between items-center w-full">
+                  <span className="text-sm font-medium text-orange-500">热度: {result.new}</span>
                   <a
                     href={`/book/${encodeURIComponent(result.book[0].url)}`}
                     className="text-blue-600 hover:underline mr-4 cursor-pointer"
                   >
                     查看详情
                   </a>
-                  <a href={result.newurl} className="text-green-600 hover:underline cursor-pointer">
-                    阅读最新章节
-                  </a>
+                </div>
+                <div className="flex items-center space-x-1 mt-3 text-gray-500">
+                  <Author />
+                  <p className="text-sm truncate">{result.author}</p>
                 </div>
               </div>
             </div>

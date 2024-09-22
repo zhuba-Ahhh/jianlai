@@ -3,7 +3,6 @@ import { http } from '../utils/request';
 
 import { useNavigate } from 'react-router-dom';
 
-import Loading from '../components/Loading';
 import Tabs from '../components/Tabs';
 import { Author } from 'assets/svg';
 
@@ -70,7 +69,21 @@ const BookList = ({ initialCategory = '全部类型' }: BookListProps) => {
       />
       <div className="h-8" />
       {loading ? (
-        <Loading />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {Array.from({ length: 16 }).map((_, index) => (
+            <div key={index} className="card card-compact bg-base-200 animate-pulse">
+              <div className="h-64 bg-gray-300" /> {/* 骨架屏占位 */}
+              <div className="card-body flex flex-col items-start">
+                <h2 className="h-6 bg-gray-300 rounded mb-2 w-full"> </h2> {/* 骨架屏占位 */}
+                <p className="h-4 bg-gray-300 rounded mb-3 w-full" /> {/* 骨架屏占位 */}
+                <div className="flex justify-between items-center w-full">
+                  <span className="h-4 bg-gray-300 rounded w-1/3" /> {/* 骨架屏占位 */}
+                  <span className="h-4 bg-gray-300 rounded w-1/3" /> {/* 骨架屏占位 */}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       ) : books?.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {books.map((book) => (

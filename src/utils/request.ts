@@ -15,7 +15,7 @@ export interface Result<T = unknown> {
 }
 
 const service: AxiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.NODE_ENV === 'production' ? 'https://api.book.bbdaxia.com/api' : '/api',
   timeout: 0,
 });
 
