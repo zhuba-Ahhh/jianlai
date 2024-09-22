@@ -31,7 +31,7 @@ const DictumList = () => {
   return (
     <div className="grid gap-8 p-8 md:grid-cols-2 lg:grid-cols-3" id="container">
       {dictums.map((dictum, index) => (
-        <div key={uuid()} data-swapy-slot={index} className="h-full">
+        <div key={uuid()} data-swapy-slot={index} className="h-full cursor-pointer">
           <div
             className="p-8 bg-white rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 border border-gray-300 transform hover:-translate-y-1 hover:scale-105"
             data-swapy-item={dictum}

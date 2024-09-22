@@ -11,14 +11,47 @@ type BookDetail = {
   newurl: string;
 };
 
+interface listItem {
+  name: string;
+  url: string;
+}
+
 interface BookDetails {
   img: string;
   desc: string;
   name: string;
   type: string;
   author: string;
-  list: { name: string; url: string }[];
+  list: Array<listItem>;
 }
+
+const SkeletonLoader = () => (
+  <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="card card-side bg-base-100 shadow-xl">
+      <figure className="ml-6 w-48 h-64 mb-4 rounded-lg skeleton"></figure>
+      <div className="card-body">
+        <h1 className="skeleton h-8 mb-2"> </h1>
+        <p className="skeleton h-6 mb-2"></p>
+        <p className="skeleton h-6 mb-4"></p>
+        <p className="skeleton h-4"></p>
+      </div>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+      {Array.from({ length: 24 }).map(
+        (
+          _,
+          index // 假设有6个章节
+        ) => (
+          <div key={index} className="card bg-base-100 shadow-md skeleton">
+            <div className="card-body">
+              <h3 className="skeleton h-6 mb-2"> </h3>
+            </div>
+          </div>
+        )
+      )}
+    </div>
+  </div>
+);
 
 const BookView = () => {
   const navigate = useNavigate();
@@ -26,17 +59,27 @@ const BookView = () => {
   const [book, setBook] = useState<BookDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
+  const [defaultSelect, setDefalutSelect] = useState('');
 
   const getBookDetails = useCallback(async (url: string) => {
+    setLoading(true); // 开始加载
     try {
       const response = await http.get<BookDetails>(url);
+      setDefalutSelect(url);
       setBook(response);
     } catch (error) {
       console.error('获取书籍详情失败:', error);
     } finally {
-      setLoading(false);
+      setLoading(false); // 结束加载
     }
   }, []);
+
+  const handleSourceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedUrl = e.target.value;
+    if (selectedUrl) {
+      getBookDetails(selectedUrl);
+    }
+  };
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -46,10 +89,10 @@ const BookView = () => {
         setOptions(
           origins.map((origin) => ({ value: origin?.url, label: `${origin?.name}-${origin?.new}` }))
         );
+        setDefalutSelect(origins?.[0].url);
         getBookDetails(origins[0].url);
       } catch (error) {
         console.error('获取书籍详情失败:', error);
-      } finally {
         setLoading(false);
       }
     };
@@ -67,18 +110,10 @@ const BookView = () => {
   );
 
   if (loading) {
-    return <Loading />;
+    return <SkeletonLoader />; // 使用封装的骨架屏组件
   }
 
-  if (!book) {
-    return (
-      <div className="mx-auto">
-        <p className="text-center">未找到书籍信息</p>
-      </div>
-    );
-  }
-
-  return (
+  return book ? (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="card card-side bg-base-100 shadow-xl transition-transform transform hover:scale-105">
         <figure className="ml-6 w-48 h-64 mb-4 rounded-lg shadow-md">
@@ -98,11 +133,12 @@ const BookView = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold mt-4 mb-4 text-gray-800">章节列表</h2>
         <div className="flex items-center">
-          <span>源:</span>
+          <span className="font-medium">源:</span>
           <select
             className="select select-bordered select-sm w-full max-w-xs ml-4"
+            value={defaultSelect}
             style={{ outlineOffset: 0 }}
-            onChange={(e) => getBookDetails(e.target.value)}
+            onChange={handleSourceChange}
           >
             {options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -110,22 +146,34 @@ const BookView = () => {
               </option>
             ))}
           </select>
+          {loading && <Loading />}
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {book.list.map((chapter, index) => (
-          // eslint-disable-next-line jsx-a11y/anchor-is-valid
-          <a
-            className="link link-hover truncate hover:underline"
+          <div
             key={index}
-            onClick={() => {
-              JumpToBookChapter(getLastNumbersFromUrl(chapter.url).join('-'));
-            }}
+            className="card bg-base-100 shadow-md hover:shadow-lg transition-shadow transform hover:scale-105"
           >
-            {chapter.name}
-          </a>
+            <div className="card-body">
+              <h3 className="text-lg font-semibold cursor-pointer">
+                <a
+                  className="link link-hover text-blue-600 hover:text-blue-800 transition-colors no-underline hover:no-underline"
+                  onClick={() => {
+                    JumpToBookChapter(getLastNumbersFromUrl(chapter.url).join('-'));
+                  }}
+                >
+                  {chapter.name}
+                </a>
+              </h3>
+            </div>
+          </div>
         ))}
       </div>
+    </div>
+  ) : (
+    <div className="mx-auto height-full">
+      <p className="text-center">未找到书籍信息</p>
     </div>
   );
 };

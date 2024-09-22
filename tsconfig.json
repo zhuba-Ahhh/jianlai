@@ -19,7 +19,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": [""]
+    "types": ["node"]
   },
   "include": ["./src"]
 }
