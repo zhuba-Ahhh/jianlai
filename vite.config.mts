@@ -76,13 +76,16 @@ export default defineConfig({
     // }),
   ],
   server: {
-    proxy: {
-      '/api': {
-        target: 'https://api.book.bbdaxia.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
+    proxy:
+      process.env.NODE_ENV === 'production'
+        ? {}
+        : {
+            '/api': {
+              target: 'https://api.book.bbdaxia.com',
+              changeOrigin: true,
+              rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+          },
   },
   base: process.env.NODE_ENV === 'production' ? './' : '/',
   esbuild: {
