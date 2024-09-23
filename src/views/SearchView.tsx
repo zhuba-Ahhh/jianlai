@@ -2,14 +2,12 @@ import { useState } from 'react';
 import { http } from '../utils/request';
 import { uuid } from 'zhuba-tools';
 import { Author } from 'assets/svg';
+import { getLastNumbersFromUrl } from 'utils';
 
 interface SearchResult {
   img: string;
   type: string;
   name: string;
-  url: string;
-  new: string;
-  newurl: string;
   author: string;
   desc: string;
   book: { name: string; url: string; new: string; newurl: string }[];
@@ -43,7 +41,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto py-8">
       <form onSubmit={handleSearch} className="flex mb-8 justify-between w-full">
         <input
           type="text"
@@ -77,17 +75,31 @@ const SearchPage = () => {
                 </h2>
                 <p className="text-sm text-gray-600 line-clamp-4 mb-3">{result.desc}</p>
                 <div className="flex justify-between items-center w-full">
-                  <span className="text-sm font-medium text-orange-500">热度: {result.new}</span>
                   <a
-                    href={`/book/${encodeURIComponent(result.book[0].url)}`}
+                    href={`/book/${encodeURIComponent(result.name)}`}
                     className="text-blue-600 hover:underline mr-4 cursor-pointer"
                   >
                     查看详情
                   </a>
+                  <a
+                    href={`/chapter/${getLastNumbersFromUrl(result.book[0].newurl).join('-')}`}
+                    className="text-blue-600 hover:underline mr-4 cursor-pointer"
+                  >
+                    查看最新章节
+                  </a>
                 </div>
-                <div className="flex items-center space-x-1 mt-3 text-gray-500">
-                  <Author />
-                  <p className="text-sm truncate">{result.author}</p>
+                <div className="flex justify-between items-center w-full mt-3 ">
+                  <div className="flex items-center space-x-1 text-gray-500">
+                    <Author />
+                    <p className="text-sm truncate">{result.author}</p>
+                  </div>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className="badge badge-outline text-sm px-2 py-1 bg-secondary-100 text-secondary-700 rounded-full cursor-pointer"
+                  >
+                    {result.type}
+                  </span>
                 </div>
               </div>
             </div>
