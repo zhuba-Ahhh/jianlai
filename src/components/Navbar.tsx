@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <ul className="navbar bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm">
+    <ul className="navbar bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm p-3">
       <li className="navbar-start">
         <Link to="/" className="text-2xl font-bold">
           小说
@@ -14,6 +14,12 @@ const Navbar = () => {
         </li>
         <li className="hover:text-black transition duration-200 ease-in-out">
           <Link to="/xuezhong">雪中</Link>
+        </li>
+        <li className="hover:text-black transition duration-200 ease-in-out">
+          <Link to="/animation">动漫</Link>
+        </li>
+        <li className="hover:text-black transition duration-200 ease-in-out">
+          <Link to="/romantic">浪漫</Link>
         </li>
         {/* <li className="hover:text-black transition duration-200 ease-in-out">
           <Link to="/search">搜索</Link>

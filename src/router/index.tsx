@@ -6,6 +6,8 @@ import BookView from '../views/BookView';
 import BookChapter from '../views/BookChapter';
 import Navbar from '../components/Navbar';
 import XueZhongView from '../views/XueZhongView';
+import AnimationView from 'views/AnimationView';
+import RomanticView from 'views/RomanticView';
 
 const router = createBrowserRouter(
   [
@@ -33,6 +35,24 @@ const router = createBrowserRouter(
         <>
           <Navbar />
           <XueZhongView />
+        </>
+      ),
+    },
+    {
+      path: '/animation',
+      element: (
+        <>
+          <Navbar />
+          <AnimationView />
+        </>
+      ),
+    },
+    {
+      path: '/romantic',
+      element: (
+        <>
+          <Navbar />
+          <RomanticView />
         </>
       ),
     },

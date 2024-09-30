@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import DictumList from '../components/DictumList';
 import Loading from '../components/Loading';
-import { dictums1 } from 'data';
+import { dictums3 } from 'data';
 
-const XueZhongView = () => {
+const RomanticView = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -16,10 +16,10 @@ const XueZhongView = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <DictumList origin="烽火戏诸侯《雪中悍刀行》" dictums={dictums1} />
+        <DictumList origin="烽火戏诸侯《雪中悍刀行》" dictums={dictums3} />
       )}
     </main>
   );
 };
 
-export default XueZhongView;
+export default RomanticView;
