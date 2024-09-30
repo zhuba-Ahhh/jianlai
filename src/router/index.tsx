@@ -57,8 +57,8 @@ const router = createBrowserRouter(
       path: '*', // 匹配所有未定义的路径
       element: <Navigate to="/" />, // 重定向到首页
     },
-  ],
-  { basename: process.env.NODE_ENV === 'production' ? '/jianlai' : '' }
+  ]
+  // { basename: process.env.NODE_ENV === 'production' ? '/jianlai' : '' }
 );
 
 export default router;

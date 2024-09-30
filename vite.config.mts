@@ -5,7 +5,8 @@ import svgrPlugin from 'vite-plugin-svgr';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import viteImagemin from 'vite-plugin-imagemin';
-import importToCDN, { autoComplete } from 'vite-plugin-cdn-import';
+import importToCDN from 'vite-plugin-cdn-import';
+import createExternal from 'vite-plugin-external';
 
 // https://vitejs.dev/config/
 // eslint-disable-next-line import/no-unused-modules
@@ -32,7 +33,17 @@ export default defineConfig({
       open: false,
     }),
     importToCDN({
-      modules: [autoComplete('react'), autoComplete('react-dom'), autoComplete('axios')],
+      // enableInDevMode: true,
+      modules: ['react', 'react-dom', 'axios'],
+    }),
+    createExternal({
+      interop: 'auto', // 这个声明很重要
+      externals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+        'react-router-dom': 'ReactRouterDOM',
+        'react-router': 'ReactRouter',
+      },
     }),
     viteImagemin({
       gifsicle: {
@@ -76,16 +87,13 @@ export default defineConfig({
     // }),
   ],
   server: {
-    proxy:
-      process.env.NODE_ENV === 'production'
-        ? {}
-        : {
-            '/api': {
-              target: 'https://api.book.bbdaxia.com',
-              changeOrigin: true,
-              rewrite: (path) => path.replace(/^\/api/, ''),
-            },
-          },
+    proxy: {
+      '/api': {
+        target: 'https://api.book.bbdaxia.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   base: process.env.NODE_ENV === 'production' ? './' : '/',
   esbuild: {
