@@ -36,15 +36,15 @@ export default defineConfig({
       // enableInDevMode: true,
       modules: ['react', 'react-dom', 'axios'],
     }),
-    createExternal({
-      interop: 'auto', // 这个声明很重要
-      externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        'react-router-dom': 'ReactRouterDOM',
-        'react-router': 'ReactRouter',
-      },
-    }),
+    // createExternal({
+    //   interop: 'auto', // 这个声明很重要
+    //   externals: {
+    //     react: 'React',
+    //     'react-dom': 'ReactDOM',
+    //     'react-router-dom': 'ReactRouterDOM',
+    //     'react-router': 'ReactRouter',
+    //   },
+    // }),
     viteImagemin({
       gifsicle: {
         // gif图片压缩
