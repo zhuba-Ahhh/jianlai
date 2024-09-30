@@ -1059,7 +1059,7 @@ export const dictums3: dictumsType = [
   },
   {
     dictum:
-      'ᵀʰᵒᵘˢᵃⁿᵈˢ ᵒᶠ ᵐⁱˡᵉˢ ⁱⁿ ᵗʰᵉ ᵐᵒᵘⁿᵗᵃⁱⁿˢ, ʸᵒᵘ ᵃʳᵉ ᵐʸ ʳᵒᵐᵃⁿᶜᵉ ʰⁱᵈᵈᵉⁿ ⁱⁿ ᵗʰᵉ ˢᵗᵃʳˢ. 山野千里，你是我藏在星星里的浪漫。',
+      'Thousands of miles in the mountains, you are my romance hidden in the stars. 山野千里，你是我藏在星星里的浪漫。',
   },
   {
     dictum:
