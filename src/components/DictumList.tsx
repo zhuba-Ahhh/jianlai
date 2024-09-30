@@ -1,10 +1,11 @@
 import { uuid } from 'zhuba-tools';
 import { createSwapy } from 'swapy';
 
-import { dictums } from '../data/dictum';
+import { dictums as defalutDictums } from '../data/dictum';
 import { useEffect } from 'react';
 
-const DictumList = () => {
+const DictumList = (props: { origin?: string; dictums?: Array<string> }) => {
+  const { origin = `—— 烽火戏诸侯《剑来》`, dictums = defalutDictums } = props;
   useEffect(() => {
     const container = document.querySelector('#container')!;
     const swapy = createSwapy(container, {
@@ -29,7 +30,6 @@ const DictumList = () => {
     };
   }, []);
 
-  const origin = `—— 烽火戏诸侯《剑来》`;
   return (
     <div className="grid gap-8 p-8 md:grid-cols-2 lg:grid-cols-3" id="container">
       {dictums.map((dictum, index) => (

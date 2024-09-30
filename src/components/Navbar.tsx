@@ -10,14 +10,14 @@ const Navbar = () => {
       </li>
       <div className="navbar-end flex-grow flex justify-end items-center space-x-4">
         <li className="hover:text-black transition duration-200 ease-in-out">
-          <Link to="/">首页</Link>
+          <Link to="/">剑来</Link>
         </li>
         <li className="hover:text-black transition duration-200 ease-in-out">
-          <Link to="/list">小说列表</Link>
+          <Link to="/xuezhong">雪中</Link>
         </li>
-        <li className="hover:text-black transition duration-200 ease-in-out">
+        {/* <li className="hover:text-black transition duration-200 ease-in-out">
           <Link to="/search">搜索</Link>
-        </li>
+        </li> */}
       </div>
     </ul>
   );

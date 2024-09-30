@@ -5,6 +5,7 @@ import SearchPage from '../views/SearchView';
 import BookView from '../views/BookView';
 import BookChapter from '../views/BookChapter';
 import Navbar from '../components/Navbar';
+import XueZhongView from '../views/XueZhongView';
 
 const router = createBrowserRouter(
   [
@@ -23,6 +24,15 @@ const router = createBrowserRouter(
         <>
           <Navbar />
           <BookList />
+        </>
+      ),
+    },
+    {
+      path: '/xuezhong',
+      element: (
+        <>
+          <Navbar />
+          <XueZhongView />
         </>
       ),
     },
