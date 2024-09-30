@@ -28,6 +28,8 @@ const DictumList = () => {
       swapy.destroy();
     };
   }, []);
+
+  const origin = `—— 烽火戏诸侯《剑来》`;
   return (
     <div className="grid gap-8 p-8 md:grid-cols-2 lg:grid-cols-3" id="container">
       {dictums.map((dictum, index) => (
@@ -37,6 +39,7 @@ const DictumList = () => {
             data-swapy-item={dictum}
           >
             <p className="text-lg font-semibold text-gray-900 leading-relaxed">{dictum}</p>
+            <p className="text-right text-[#6f7070]">{origin}</p>
           </div>
         </div>
       ))}
