@@ -1,16 +1,4 @@
 {
   "version": 2,
-  "rewrites": [{ "source": "/:path*", "destination": "/index.html" }],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Accept, Authorization",
-        "Access-Control-Allow-Credentials": "true"
-      }
-    }
-  ]
+  "rewrites": [{ "source": "/:path*", "destination": "/index.html" }]
 }
