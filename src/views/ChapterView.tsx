@@ -14,18 +14,14 @@ const ChapterView = () => {
   useEffect(() => {
     const id = searchParams.get('id') || '';
     const chapterId = searchParams.get('chapterId') || '';
-    setUrl(`https://read.zongheng.com/chapter/${id}/${chapterId}.html`);
+    setUrl(`/chapter?id=${id}&chapterId=${chapterId}`);
   }, [searchParams]);
   useEffect(() => {
     if (url) {
-      http
-        .post<ChapterRes>('/chapter', {
-          url: url || 'https://read.zongheng.com/chapter/672340/38518947.html',
-        })
-        .then((res) => {
-          setData(res);
-          setIsLoading(false);
-        });
+      http.get<ChapterRes>(url || '/chapter').then((res) => {
+        setData(res);
+        setIsLoading(false);
+      });
     }
   }, [url]);
 
