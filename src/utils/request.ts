@@ -16,7 +16,10 @@ export interface Result<T = unknown> {
 
 const service: AxiosInstance = axios.create({
   // baseURL: process.env.NODE_ENV === 'production' ? 'https://api.book.bbdaxia.com/' : '/api',
-  baseURL: 'http://localhost:3000/novel',
+  baseURL: 'http://101.43.14.179:3000/novel',
+  // process.env.NODE_ENV === 'production'
+  //   ? 'http://101.43.14.179:3000/novel'
+  //   : 'http://localhost:3000/novel',
   timeout: 0,
 });
 
