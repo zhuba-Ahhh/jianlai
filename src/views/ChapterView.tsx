@@ -3,21 +3,28 @@ import Loading from '../components/Loading';
 import { http } from 'utils';
 import { ChapterRes } from '../types';
 import './ChapterView.less';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 const ChapterView = () => {
-  const { url } = useParams<{ url: string }>();
+  const [searchParams] = useSearchParams();
+  const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<ChapterRes | null>(null);
+
   useEffect(() => {
-    http
-      .post<ChapterRes>('/chapter', {
-        url: url || 'https://read.zongheng.com/chapter/672340/38518947.html',
-      })
-      .then((res) => {
-        setData(res);
-        setIsLoading(false);
-      });
+    setUrl(searchParams.get('url') || '');
+  }, [searchParams]);
+  useEffect(() => {
+    if (url) {
+      http
+        .post<ChapterRes>('/chapter', {
+          url: url || 'https://read.zongheng.com/chapter/672340/38518947.html',
+        })
+        .then((res) => {
+          setData(res);
+          setIsLoading(false);
+        });
+    }
   }, [url]);
 
   const bookId = useMemo(() => {
@@ -39,7 +46,7 @@ const ChapterView = () => {
             </li>
           ))}
           <li>
-            <a href={`/directory/${bookId}`}>{data?.name}</a>
+            <a href={`/directory?id=${bookId}`}>{data?.name}</a>
           </li>
         </ul>
       </div>
@@ -62,13 +69,13 @@ const ChapterView = () => {
     () => (
       <div className="flex mx-auto mt-6 w-full max-w-[960px] bg-[--modBgColor] justify-evenly items-center h-12">
         <div>
-          <a href={`/chapter/${encodeURIComponent(data?.preUrl || '')}`}>上一章</a>
+          <a href={`/chapter?id=${encodeURIComponent(data?.preUrl || '')}`}>上一章</a>
         </div>
         <div>
-          <a href={`/directory/${bookId}`}>目录</a>
+          <a href={`/directory?id=${bookId}`}>目录</a>
         </div>
         <div>
-          <a href={`/chapter/${encodeURIComponent(data?.nextUrl || '')}`}>下一章</a>
+          <a href={`/chapter?url=${encodeURIComponent(data?.nextUrl || '')}`}>下一章</a>
         </div>
       </div>
     ),

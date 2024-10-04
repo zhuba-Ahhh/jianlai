@@ -21,7 +21,7 @@ const XueZhongView = () => {
         <DictumList
           origin="烽火戏诸侯《雪中悍刀行》"
           dictums={dictums1}
-          onClick={() => navigate(`/directory/189169`)}
+          onClick={() => navigate(`/directory?id=189169`)}
         />
       )}
     </main>

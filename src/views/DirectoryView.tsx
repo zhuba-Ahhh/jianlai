@@ -2,10 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import { http } from 'utils';
 import { DirectoryRes } from 'types';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 const DirectoryView = () => {
-  const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+  const [id, setId] = useState('');
+  useEffect(() => {
+    setId(searchParams.get('id') || '');
+  }, [searchParams]);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<DirectoryRes>({
     chapterList: [],
@@ -20,10 +24,12 @@ const DirectoryView = () => {
     },
   });
   useEffect(() => {
-    http.get<DirectoryRes>(`/directory?id=${id || 672340}`).then((res) => {
-      setData(res);
-      setIsLoading(false);
-    });
+    if (id) {
+      http.get<DirectoryRes>(`/directory?id=${id || 672340}`).then((res) => {
+        setData(res);
+        setIsLoading(false);
+      });
+    }
   }, [id]);
 
   const renderBreadcrumbs = useCallback(
@@ -71,7 +77,7 @@ const DirectoryView = () => {
                 key={JSON.stringify(chapter) + index}
                 className="col-span-1 cursor-pointer truncate"
               >
-                <a href={`/chapter/${encodeURIComponent(chapter.url)}`}>{chapter.name}</a>
+                <a href={`/chapter?url=${encodeURIComponent(chapter.url)}`}>{chapter.name}</a>
               </div>
             ))}
           </div>

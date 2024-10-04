@@ -76,7 +76,7 @@ const router = createBrowserRouter(
       ),
     },
     {
-      path: '/chapter/:url',
+      path: '/chapter',
       element: (
         <>
           <Navbar />
@@ -85,7 +85,7 @@ const router = createBrowserRouter(
       ),
     },
     {
-      path: '/directory/:id',
+      path: '/directory',
       element: (
         <>
           <Navbar />

@@ -10,7 +10,7 @@ const DictumList = (props: { origin?: string; dictums?: dictumsType; onClick?: (
   const {
     origin = `烽火戏诸侯《剑来》`,
     dictums = defalutDictums,
-    onClick = () => navigate(`/directory/672340`),
+    onClick = () => navigate(`/directory?id=672340`),
   } = props;
   useEffect(() => {
     const container = document.querySelector('#container')!;
