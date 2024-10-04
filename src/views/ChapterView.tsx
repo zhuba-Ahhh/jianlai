@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Loading from '../components/Loading';
-import { http } from 'utils';
+import { http, resolveUrl } from 'utils';
 import { ChapterRes } from '../types';
 import './ChapterView.less';
 import { useSearchParams } from 'react-router-dom';
@@ -12,7 +12,9 @@ const ChapterView = () => {
   const [data, setData] = useState<ChapterRes | null>(null);
 
   useEffect(() => {
-    setUrl(searchParams.get('url') || '');
+    const id = searchParams.get('id') || '';
+    const chapterId = searchParams.get('chapterId') || '';
+    setUrl(`https://read.zongheng.com/chapter/${id}/${chapterId}.html`);
   }, [searchParams]);
   useEffect(() => {
     if (url) {
@@ -65,22 +67,23 @@ const ChapterView = () => {
     [data]
   );
 
-  const renderBtns = useCallback(
-    () => (
+  const renderBtns = useCallback(() => {
+    const [id, chapterId] = resolveUrl(data?.preUrl || '');
+    const [id1, chapterId1] = resolveUrl(data?.nextUrl || '');
+    return (
       <div className="flex mx-auto mt-6 w-full max-w-[960px] bg-[--modBgColor] justify-evenly items-center h-12">
         <div>
-          <a href={`/chapter?id=${encodeURIComponent(data?.preUrl || '')}`}>上一章</a>
+          <a href={`/chapter?id=${id}&chapterId=${chapterId}`}>上一章</a>
         </div>
         <div>
           <a href={`/directory?id=${bookId}`}>目录</a>
         </div>
         <div>
-          <a href={`/chapter?url=${encodeURIComponent(data?.nextUrl || '')}`}>下一章</a>
+          <a href={`/chapter?id=${id1}&chapterId=${chapterId1}`}>下一章</a>
         </div>
       </div>
-    ),
-    [data, bookId]
-  );
+    );
+  }, [data, bookId]);
 
   return (
     <main className="container mx-auto">

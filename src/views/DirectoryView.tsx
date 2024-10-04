@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
-import { http } from 'utils';
+import { http, resolveUrl } from 'utils';
 import { DirectoryRes } from 'types';
 import { useSearchParams } from 'react-router-dom';
 
@@ -72,14 +72,17 @@ const DirectoryView = () => {
             </span>
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-            {volume?.chapters.map((chapter, index) => (
-              <div
-                key={JSON.stringify(chapter) + index}
-                className="col-span-1 cursor-pointer truncate"
-              >
-                <a href={`/chapter?url=${encodeURIComponent(chapter.url)}`}>{chapter.name}</a>
-              </div>
-            ))}
+            {volume?.chapters.map((chapter, index) => {
+              const [id, chapterId] = resolveUrl(chapter.url);
+              return (
+                <div
+                  key={JSON.stringify(chapter) + index}
+                  className="col-span-1 cursor-pointer truncate"
+                >
+                  <a href={`/chapter?id=${id}&chapterId=${chapterId}`}>{chapter.name}</a>
+                </div>
+              );
+            })}
           </div>
         </div>
       )),
