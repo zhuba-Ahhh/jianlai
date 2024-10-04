@@ -3,11 +3,12 @@ import App from '../App';
 import BookList from '../views/BookListView';
 import SearchPage from '../views/SearchView';
 import BookView from '../views/BookView';
-import BookChapter from '../views/BookChapter';
 import Navbar from '../components/Navbar';
 import XueZhongView from '../views/XueZhongView';
-import AnimationView from 'views/AnimationView';
-import RomanticView from 'views/RomanticView';
+import AnimationView from '../views/AnimationView';
+import RomanticView from '../views/RomanticView';
+import ChapterView from '../views/ChapterView';
+import DirectoryView from '../views/DirectoryView';
 
 const router = createBrowserRouter(
   [
@@ -79,7 +80,16 @@ const router = createBrowserRouter(
       element: (
         <>
           <Navbar />
-          <BookChapter />
+          <ChapterView />
+        </>
+      ),
+    },
+    {
+      path: '/directory/:id',
+      element: (
+        <>
+          <Navbar />
+          <DirectoryView />
         </>
       ),
     },

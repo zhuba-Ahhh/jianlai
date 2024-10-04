@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -20,9 +21,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --bgColor: #F6F8FA;
+  --modBgColor: rgba(255, 255, 255);
+  background-color: var(--bgColor);
 }
 
 #root {
   height: 100%;
-  margin: 0 12px;
+  min-height: 100vh;
+  // margin: 0 12px;
 }

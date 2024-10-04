@@ -8,7 +8,12 @@ const config = {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        '--bgColor': '#F6F8FA',
+        '--modBgColor': '#ffffff',
+      },
+    },
   },
   darkMode: 'class',
   plugins: [require('daisyui')],
