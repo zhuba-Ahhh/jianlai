@@ -39,12 +39,14 @@ const ChapterView = () => {
       <div className="breadcrumbs text-sm m-2 mb-6">
         <ul>
           {data?.path?.map((item: string, index) => (
-            <li key={item + index} className="cursor-pointer">
+            <li key={item + index} className="cursor-pointer no-underline hover:underline">
               {item}
             </li>
           ))}
           <li>
-            <a href={`/directory?id=${bookId}`}>{data?.name}</a>
+            <a href={`/directory?id=${bookId}`} className="no-underline hover:no-underline">
+              {data?.name}
+            </a>
           </li>
         </ul>
       </div>
@@ -68,15 +70,11 @@ const ChapterView = () => {
     const [id1, chapterId1] = resolveUrl(data?.nextUrl || '');
     return (
       <div className="flex mx-auto mt-6 w-full max-w-[960px] bg-[--modBgColor] justify-evenly items-center h-12">
-        <div>
-          <a href={`/chapter?id=${id}&chapterId=${chapterId}`}>上一章</a>
-        </div>
+        <div>{id && <a href={`/chapter?id=${id}&chapterId=${chapterId}`}>上一章</a>}</div>
         <div>
           <a href={`/directory?id=${bookId}`}>目录</a>
         </div>
-        <div>
-          <a href={`/chapter?id=${id1}&chapterId=${chapterId1}`}>下一章</a>
-        </div>
+        <div>{id1 && <a href={`/chapter?id=${id1}&chapterId=${chapterId1}`}>下一章</a>}</div>
       </div>
     );
   }, [data, bookId]);

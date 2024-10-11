@@ -19,7 +19,7 @@ const service: AxiosInstance = axios.create({
   baseURL:
     process.env.NODE_ENV === 'production'
       ? 'https://novel-api-psi.vercel.app/novel'
-      : 'http://101.43.14.179:3000/novel',
+      : 'http://localhost:3100/novel',
   timeout: 0,
 });
 
