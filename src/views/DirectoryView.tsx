@@ -3,6 +3,7 @@ import Loading from '../components/Loading';
 import { http, resolveUrl } from 'utils';
 import { DirectoryRes } from 'types';
 import { useSearchParams } from 'react-router-dom';
+import Switch from 'components/Switch';
 
 const DirectoryView = () => {
   const [searchParams] = useSearchParams();
@@ -27,6 +28,7 @@ const DirectoryView = () => {
     if (id) {
       http.get<DirectoryRes>(`/directory?id=${id || 672340}`).then((res) => {
         setData(res);
+        setList(res?.volumeList || []);
         setIsLoading(false);
       });
     }
@@ -58,9 +60,21 @@ const DirectoryView = () => {
     [data]
   );
 
+  const [list, setList] = useState<DirectoryRes['volumeList']>([]);
+  const handleSwitchChange = useCallback(
+    (check: boolean) => {
+      if (check) {
+        setList([...list].sort((a, b) => a.volume.name.localeCompare(b.volume.name))); // 升序排序
+      } else {
+        setList([...list].sort((a, b) => b.volume.name.localeCompare(a.volume.name))); // 倒序排序
+      }
+    },
+    [list]
+  );
+
   const renderVolumeList = useCallback(
     () =>
-      data.volumeList.map((volume, index) => (
+      list?.map((volume, index) => (
         <div key={JSON.stringify(volume) + index} className={`${index !== 0 ? 'mt-8' : ''}`}>
           <div className="flex items-center mb-4">
             <em className="border-l-4 border-[#1f2937] pr-2 inline-block h-[17px]"></em>
@@ -70,6 +84,12 @@ const DirectoryView = () => {
               章·本卷共
               {volume?.volume.totalWords}字
             </span>
+            {index === 0 && (
+              <>
+                <div className="ml-6">逆序：</div>
+                <Switch onChange={handleSwitchChange} defaultChecked={false} />
+              </>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
             {volume?.chapters.map((chapter, index) => {
@@ -86,7 +106,7 @@ const DirectoryView = () => {
           </div>
         </div>
       )),
-    [data]
+    [list, handleSwitchChange]
   );
 
   return (

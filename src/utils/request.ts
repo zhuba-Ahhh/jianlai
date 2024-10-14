@@ -40,7 +40,7 @@ service.interceptors.response.use(
     const { code, message, data } = response.data;
 
     // 根据自定义错误码判断请求是否成功
-    if (code === 0 || code === 1) {
+    if (code === 0 || code === 1 || code === 200) {
       // 将组件用的数据返回
       return data;
     } else {
