@@ -68,7 +68,8 @@ const DirectoryView = () => {
 
   const [list, setList] = useState<DirectoryRes['volumeList']>([]);
   const handleSwitchChange = useCallback((check: boolean) => {
-    const sortOrder = check ? 1 : -1; // 1 为升序，-1 为倒序
+    const sortOrder = check ? -1 : 1; // 1 为升序，-1 为倒序
+    setIsChecked(check);
     setList((prevList) =>
       prevList
         .slice() // 创建列表的副本
@@ -79,6 +80,8 @@ const DirectoryView = () => {
         }))
     );
   }, []);
+
+  const [isChecked, setIsChecked] = useState(false);
 
   const renderVolumeList = useCallback(
     () =>
@@ -94,12 +97,12 @@ const DirectoryView = () => {
             </span>
             {index === 0 && (
               <>
-                <div className="ml-6">逆序：</div>
-                <Switch onChange={handleSwitchChange} defaultChecked={false} />
+                <span className="ml-6">逆序：</span>
+                <Switch onChange={handleSwitchChange} defaultChecked={isChecked} />
               </>
             )}
           </div>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {volume?.chapters.map((chapter, index) => {
               const [id, chapterId] = resolveUrl(chapter.url);
               return (
@@ -114,7 +117,7 @@ const DirectoryView = () => {
           </div>
         </div>
       )),
-    [list, handleSwitchChange]
+    [list, handleSwitchChange, isChecked]
   );
 
   return (
