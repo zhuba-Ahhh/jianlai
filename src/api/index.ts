@@ -6,11 +6,21 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 
+/* 服务器返回数据的的类型，根据接口文档确定 */
+export interface Result<T = unknown> {
+  code: number;
+  message: string;
+  data: T;
+}
+
 const instance: AxiosInstance = axios.create({
   timeout: 1000 * 60,
   withCredentials: true,
   validateStatus: (status) => status >= 200 && status < 400,
-  baseURL: '', // 接口地址
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? 'https://novel-api-psi.vercel.app'
+      : 'http://localhost:3100',
 });
 
 // 添加请求拦截器
@@ -28,11 +38,42 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
-    // 对响应数据做点什么，例如处理全局的错误码
-    return response;
+    const { code, message, data } = response.data;
+
+    // 根据自定义错误码判断请求是否成功
+    if (code === 0 || code === 1 || code === 200) {
+      // 将组件用的数据返回
+      return data;
+    } else {
+      // 处理业务错误。
+      console.error(message);
+      return Promise.reject(new Error(message));
+    }
   },
   (error: AxiosError) => {
-    // 对响应错误做点什么
+    // 处理 HTTP 网络错误
+    let message = '';
+    // HTTP 状态码
+    const status = error.response?.status;
+    switch (status) {
+      case 401:
+        message = 'token 失效，请重新登录';
+        // 这里可以触发退出的 action
+        break;
+      case 403:
+        message = '拒绝访问';
+        break;
+      case 404:
+        message = '请求地址错误';
+        break;
+      case 500:
+        message = '服务器故障';
+        break;
+      default:
+        message = '网络连接故障';
+    }
+
+    console.error(message);
     return Promise.reject(error);
   }
 );

@@ -34,6 +34,8 @@ export interface DirectoryRes {
     chapters: {
       name: string;
       url: string;
+      idx: number;
     }[];
+    idx: number;
   }>;
 }

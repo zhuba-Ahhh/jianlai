@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import Loading from '../components/Loading';
+import Loading from 'components/Loading';
+import Switch from 'components/Switch';
 import { http, resolveUrl } from 'utils';
 import { DirectoryRes } from 'types';
 import { useSearchParams } from 'react-router-dom';
-import Switch from 'components/Switch';
 
 const DirectoryView = () => {
   const [searchParams] = useSearchParams();
@@ -28,7 +28,13 @@ const DirectoryView = () => {
     if (id) {
       http.get<DirectoryRes>(`/directory?id=${id || 672340}`).then((res) => {
         setData(res);
-        setList(res?.volumeList || []);
+        setList(
+          res?.volumeList.map((volumes, index) => ({
+            ...volumes,
+            chapters: volumes.chapters?.map((chapter, idx) => ({ ...chapter, idx })),
+            idx: index,
+          })) || []
+        );
         setIsLoading(false);
       });
     }
@@ -61,16 +67,18 @@ const DirectoryView = () => {
   );
 
   const [list, setList] = useState<DirectoryRes['volumeList']>([]);
-  const handleSwitchChange = useCallback(
-    (check: boolean) => {
-      if (check) {
-        setList([...list].sort((a, b) => a.volume.name.localeCompare(b.volume.name))); // 升序排序
-      } else {
-        setList([...list].sort((a, b) => b.volume.name.localeCompare(a.volume.name))); // 倒序排序
-      }
-    },
-    [list]
-  );
+  const handleSwitchChange = useCallback((check: boolean) => {
+    const sortOrder = check ? 1 : -1; // 1 为升序，-1 为倒序
+    setList((prevList) =>
+      prevList
+        .slice() // 创建列表的副本
+        .sort((a, b) => (a.idx - b.idx) * sortOrder) // 根据 sortOrder 进行排序
+        .map((volume) => ({
+          ...volume,
+          chapters: [...volume.chapters].sort((c1, c2) => (c1.idx - c2.idx) * sortOrder), // 根据 sortOrder 对章节排序
+        }))
+    );
+  }, []);
 
   const renderVolumeList = useCallback(
     () =>

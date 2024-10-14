@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SearchInput from './Search';
 
 const Navbar = () => {
   return (
@@ -9,6 +10,11 @@ const Navbar = () => {
         </Link>
       </li>
       <div className="navbar-end flex-grow flex justify-end items-center space-x-4">
+        <SearchInput
+          placeholder="输入关键词..."
+          onSearch={(event) => console.log(event.target.value)}
+          className="mr-2"
+        />
         {[
           { name: '剑来', path: '/' },
           { name: '雪中', path: '/xuezhong' },

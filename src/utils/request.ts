@@ -18,8 +18,8 @@ const service: AxiosInstance = axios.create({
   // baseURL: process.env.NODE_ENV === 'production' ? 'https://api.book.bbdaxia.com/' : '/api',
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? 'https://novel-api-psi.vercel.app/novel'
-      : 'http://localhost:3100/novel',
+      ? 'https://novel-api-psi.vercel.app'
+      : 'http://localhost:3100',
   timeout: 0,
 });
 
