@@ -7,7 +7,7 @@ import { http, truncateString } from 'utils';
 
 export type SearchInputProps = {
   placeholder?: string; // 输入框的占位符文本
-  onSearch: (event: ChangeEvent<HTMLInputElement>) => void; // 用户输入时触发的回调函数
+  onSearch?: (event: ChangeEvent<HTMLInputElement>) => void; // 用户输入时触发的回调函数
   className?: string; // 额外的类名
   style?: React.CSSProperties; // 额外的内联样式
 };
@@ -19,7 +19,7 @@ type ResSearchSuggest = {
 
 const SearchInput: React.FC<SearchInputProps> = ({
   placeholder = '输入关键词...',
-  onSearch,
+  onSearch = () => {},
   className = '',
   style = {},
 }) => {
@@ -53,7 +53,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
     const value = event.target.value;
 
     setInputValue(value);
-    onSearch(event);
+    onSearch && onSearch(event);
     if (value) {
       fetchSearchResults(value);
     } else {

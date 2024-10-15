@@ -10,11 +10,7 @@ const Navbar = () => {
         </Link>
       </li>
       <div className="flex-grow flex justify-end items-center space-x-4">
-        <SearchInput
-          placeholder="输入关键词..."
-          onSearch={(event) => console.log(event.target.value)}
-          className="mr-2"
-        />
+        <SearchInput placeholder="输入关键词..." className="mr-2" />
         {[
           { name: '剑来', path: '/' },
           { name: '雪中', path: '/xuezhong' },
