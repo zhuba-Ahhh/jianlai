@@ -4,12 +4,12 @@ import SearchInput from './Search';
 const Navbar = () => {
   return (
     <ul className="navbar bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 shadow-sm p-3 bg-background/95 supports-[backdrop-filter]:bg-background/40">
-      <li className="navbar-start">
+      <li>
         <Link to="/" className="text-2xl font-bold">
           小说
         </Link>
       </li>
-      <div className="navbar-end flex-grow flex justify-end items-center space-x-4">
+      <div className="flex-grow flex justify-end items-center space-x-4">
         <SearchInput
           placeholder="输入关键词..."
           onSearch={(event) => console.log(event.target.value)}

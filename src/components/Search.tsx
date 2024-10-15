@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { SearchIcon } from 'assets/svg';
@@ -69,7 +70,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-48">
       {/* 添加相对定位以便下拉列表对齐 */}
       <label
         className={`input input-bordered input-sm flex items-center gap-2 ${className}`}
@@ -93,7 +94,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
             <>
               <li className="p-2 font-bold">大家都在搜</li>
               {suggestions.map((suggestion, idx) => (
-                <li key={`suggestion-${idx}`} className="p-2 hover:bg-gray-100 cursor-pointer">
+                <li
+                  key={`suggestion-${idx}`}
+                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => setInputValue(suggestion)}
+                >
                   {truncateString(suggestion, 16)}
                 </li>
               ))}
@@ -104,7 +109,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
                 <>
                   <li className="p-2 font-bold">&quot;{inputValue}&quot;相关作品</li>
                   {books.map((book, idx) => (
-                    <li key={`work-${idx}`} className="p-2 hover:bg-gray-100 cursor-pointer">
+                    <li
+                      key={`work-${idx}`}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => setInputValue(book)}
+                    >
                       {truncateString(book, 16)}
                     </li>
                   ))}
@@ -114,7 +123,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
                 <>
                   <li className="p-2 font-bold">&quot;{inputValue}&quot;相关作者</li>
                   {authors.map((author, idx) => (
-                    <li key={`author-${idx}`} className="p-2 hover:bg-gray-100 cursor-pointer">
+                    <li
+                      key={`author-${idx}`}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => setInputValue(author)}
+                    >
                       {truncateString(author, 16)}
                     </li>
                   ))}
