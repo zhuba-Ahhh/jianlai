@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { SearchIcon } from 'assets/svg';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { http, truncateString } from 'utils';
 
@@ -22,16 +23,19 @@ const SearchInput: React.FC<SearchInputProps> = ({
   style = {},
 }) => {
   const [suggestions, setSuggestions] = useState<Array<string>>([]);
+  const [books, setBooks] = useState<Array<string>>([]);
+  const [authors, setAuthors] = useState<Array<string>>([]);
   const [currentPlaceholder, setCurrentPlaceholder] = useState<string>(placeholder);
   const [index, setIndex] = useState(0);
+  const [inputValue, setInputValue] = useState<string>('');
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
   useEffect(() => {
-    http.get<ResSearchSuggest>(`/search/suggest`).then((res) => {
-      setSuggestions(res.books || []);
-      if (suggestions.length > 0) {
-        setCurrentPlaceholder(truncateString(suggestions[0]));
-      }
-    });
+    const fetchSuggestions = async () => {
+      fetchSearchResults('', false);
+      setCurrentPlaceholder(truncateString(books?.[0] || ''));
+    };
+    fetchSuggestions();
   }, []);
 
   useEffect(() => {
@@ -39,40 +43,89 @@ const SearchInput: React.FC<SearchInputProps> = ({
       const interval = setInterval(() => {
         setIndex((prevIndex) => (prevIndex + 1) % suggestions.length);
         setCurrentPlaceholder(truncateString(suggestions[index]));
-      }, 3000); // 每3秒更换一次占位符文本
+      }, 3000);
       return () => clearInterval(interval);
     }
   }, [suggestions, index]);
 
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
+    setInputValue(value);
+    onSearch(event);
+    if (value) {
+      fetchSearchResults(value);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  const fetchSearchResults = async (value: string, isShow = true) => {
+    const res = await http.get<ResSearchSuggest>(`/search/suggest?keyword=${value}`);
+    setBooks(res?.books || []);
+    setAuthors(res?.authors || []);
+    setSuggestions(res?.books || []);
+    setShowSuggestions(isShow);
+  };
+
   return (
-    <label
-      className={`input input-bordered input-sm flex items-center gap-2 ${className}`}
-      style={style}
-    >
-      <input
-        className="grow"
-        type="text"
-        placeholder={currentPlaceholder || placeholder}
-        onChange={onSearch} // 确保回调函数的参数是ChangeEvent<HTMLInputElement>
-      />
-      <Icon />
-    </label>
+    <div className="relative">
+      {/* 添加相对定位以便下拉列表对齐 */}
+      <label
+        className={`input input-bordered input-sm flex items-center gap-2 ${className}`}
+        style={{ ...style, width: '100%', maxWidth: '400px' }} // 设置最大宽度
+      >
+        <input
+          className="grow"
+          type="text"
+          placeholder={currentPlaceholder || placeholder}
+          onChange={handleInputChange}
+          onFocus={() => setShowSuggestions(true)}
+          onBlur={() => setShowSuggestions(false)}
+          value={inputValue}
+          style={{ width: '100%' }} // 输入框宽度100%
+        />
+        <SearchIcon />
+      </label>
+      {showSuggestions && (
+        <ul className="absolute mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+          {!inputValue ? (
+            <>
+              <li className="p-2 font-bold">大家都在搜</li>
+              {suggestions.map((suggestion, idx) => (
+                <li key={`suggestion-${idx}`} className="p-2 hover:bg-gray-100 cursor-pointer">
+                  {truncateString(suggestion, 16)}
+                </li>
+              ))}
+            </>
+          ) : (
+            <>
+              {books.length > 0 && (
+                <>
+                  <li className="p-2 font-bold">&quot;{inputValue}&quot;相关作品</li>
+                  {books.map((book, idx) => (
+                    <li key={`work-${idx}`} className="p-2 hover:bg-gray-100 cursor-pointer">
+                      {truncateString(book, 16)}
+                    </li>
+                  ))}
+                </>
+              )}
+              {authors.length > 0 && (
+                <>
+                  <li className="p-2 font-bold">&quot;{inputValue}&quot;相关作者</li>
+                  {authors.map((author, idx) => (
+                    <li key={`author-${idx}`} className="p-2 hover:bg-gray-100 cursor-pointer">
+                      {truncateString(author, 16)}
+                    </li>
+                  ))}
+                </>
+              )}
+            </>
+          )}
+        </ul>
+      )}
+    </div>
   );
 };
-
-const Icon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 16 16"
-    fill="currentColor"
-    className="h-4 w-4 opacity-70"
-  >
-    <path
-      fillRule="evenodd"
-      d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-      clipRule="evenodd"
-    />
-  </svg>
-);
 
 export default SearchInput;
