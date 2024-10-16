@@ -26,7 +26,7 @@ const ChapterView = () => {
   }, [url]);
 
   const bookId = useMemo(() => {
-    const match = url?.match(/chapter\/(\d+)\//);
+    const match = url?.match(/chapter\?id=(\d+)&chapterId=\d+/);
     if (match && match[1]) {
       return match[1];
     } else {

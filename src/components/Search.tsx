@@ -17,6 +17,51 @@ type ResSearchSuggest = {
   books?: Array<string>;
 };
 
+// 新增 ListSection 组件
+const ListSection: React.FC<{
+  title: string;
+  items: Array<string>;
+  onItemClick: (item: string) => void;
+}> = ({ title, items, onItemClick }) =>
+  items && items.length > 0 ? (
+    <>
+      <li className="p-2 font-bold">{title}</li>
+      {items.map((item, idx) => (
+        <li
+          key={`${title}-${idx}`}
+          className="p-2 hover:bg-gray-100 cursor-pointer"
+          onClick={() => onItemClick(item)}
+        >
+          {truncateString(item, 16)}
+        </li>
+      ))}
+    </>
+  ) : null;
+
+// 更新 SuggestionsList 组件
+const SuggestionsList: React.FC<{
+  inputValue: string;
+  suggestions: Array<string>;
+  books: Array<string>;
+  authors: Array<string>;
+  setInputValue: (value: string) => void;
+}> = ({ inputValue, suggestions, books, authors, setInputValue }) => (
+  <ul className="absolute mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+    {!inputValue ? (
+      <ListSection title="大家都在搜" items={suggestions} onItemClick={setInputValue} />
+    ) : (
+      <>
+        <ListSection title={`"${inputValue}"相关作品`} items={books} onItemClick={setInputValue} />
+        <ListSection
+          title={`"${inputValue}"相关作者`}
+          items={authors}
+          onItemClick={setInputValue}
+        />
+      </>
+    )}
+  </ul>
+);
+
 const SearchInput: React.FC<SearchInputProps> = ({
   placeholder = '输入关键词...',
   onSearch = () => {},
@@ -89,53 +134,13 @@ const SearchInput: React.FC<SearchInputProps> = ({
         <SearchIcon />
       </label>
       {showSuggestions && (
-        <ul className="absolute mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
-          {!inputValue ? (
-            <>
-              <li className="p-2 font-bold">大家都在搜</li>
-              {suggestions.map((suggestion, idx) => (
-                <li
-                  key={`suggestion-${idx}`}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => setInputValue(suggestion)}
-                >
-                  {truncateString(suggestion, 16)}
-                </li>
-              ))}
-            </>
-          ) : (
-            <>
-              {books.length > 0 && (
-                <>
-                  <li className="p-2 font-bold">&quot;{inputValue}&quot;相关作品</li>
-                  {books.map((book, idx) => (
-                    <li
-                      key={`work-${idx}`}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => setInputValue(book)}
-                    >
-                      {truncateString(book, 16)}
-                    </li>
-                  ))}
-                </>
-              )}
-              {authors.length > 0 && (
-                <>
-                  <li className="p-2 font-bold">&quot;{inputValue}&quot;相关作者</li>
-                  {authors.map((author, idx) => (
-                    <li
-                      key={`author-${idx}`}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => setInputValue(author)}
-                    >
-                      {truncateString(author, 16)}
-                    </li>
-                  ))}
-                </>
-              )}
-            </>
-          )}
-        </ul>
+        <SuggestionsList
+          inputValue={inputValue}
+          suggestions={suggestions}
+          books={books}
+          authors={authors}
+          setInputValue={setInputValue}
+        />
       )}
     </div>
   );
