@@ -1,8 +1,6 @@
 import { uuid } from 'zhuba-tools';
-import { createSwapy } from 'swapy';
 
 import { dictums as defalutDictums, dictumsType } from '../data/dictum';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const DictumList = (props: { origin?: string; dictums?: dictumsType; onClick?: () => void }) => {
@@ -12,32 +10,9 @@ const DictumList = (props: { origin?: string; dictums?: dictumsType; onClick?: (
     dictums = defalutDictums,
     onClick = () => navigate(`/directory?id=672340`),
   } = props;
-  useEffect(() => {
-    const container = document.querySelector('#container')!;
-    const swapy = createSwapy(container, {
-      swapMode: 'hover',
-      continuousMode: false,
-    });
-    swapy.onSwap(({ data }) => {
-      console.log('swap', data);
-      localStorage.setItem('slotItem', JSON.stringify(data.object));
-    });
-
-    swapy.onSwapEnd(({ data }) => {
-      console.log('end', data);
-    });
-
-    swapy.onSwapStart(() => {
-      console.log('start');
-    });
-
-    return () => {
-      swapy.destroy();
-    };
-  }, []);
 
   return (
-    <div className="grid gap-8 p-8 md:grid-cols-2 lg:grid-cols-3" id="container">
+    <div className="grid gap-8 p-8 md:grid-cols-2 lg:grid-cols-3">
       {dictums.map((dictum, index) => (
         <div key={uuid()} data-swapy-slot={index} className="h-full cursor-pointer">
           <div
