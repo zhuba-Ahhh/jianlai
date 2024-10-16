@@ -4,6 +4,7 @@
 import { SearchIcon } from 'assets/svg';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { http, truncateString } from 'utils';
+import { debounce } from 'lodash-es'; // 导入 debounce 方法
 
 export type SearchInputProps = {
   placeholder?: string; // 输入框的占位符文本
@@ -99,12 +100,21 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
     setInputValue(value);
     onSearch && onSearch(event);
-    if (value) {
-      fetchSearchResults(value);
-    } else {
-      setShowSuggestions(false);
-    }
   };
+
+  useEffect(() => {
+    const debouncedFetchSearch = debounce(() => {
+      if (inputValue) {
+        fetchSearchResults(inputValue);
+      }
+    }, 500); // 设置防抖延迟为500毫秒
+
+    debouncedFetchSearch();
+
+    return () => {
+      debouncedFetchSearch.cancel(); // 清除防抖函数
+    };
+  }, [inputValue]); // 依赖于 inputValue
 
   const fetchSearchResults = async (value: string, isShow = true) => {
     const res = await http.get<ResSearchSuggest>(`/search/suggest?keyword=${value}`);
@@ -125,7 +135,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           className="grow"
           type="text"
           placeholder={currentPlaceholder || placeholder}
-          onChange={handleInputChange}
+          onChange={handleInputChange} // 使用防抖后的函数
           onFocus={() => setShowSuggestions(true)}
           onBlur={() => setShowSuggestions(false)}
           value={inputValue}
