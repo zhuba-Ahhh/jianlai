@@ -103,6 +103,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   };
 
   useEffect(() => {
+    console.log(inputValue, 'inputValue');
     const debouncedFetchSearch = debounce(() => {
       if (inputValue) {
         fetchSearchResults(inputValue);
@@ -149,7 +150,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           suggestions={suggestions}
           books={books}
           authors={authors}
-          setInputValue={setInputValue}
+          setInputValue={(newValue: string) => setInputValue(newValue)}
         />
       )}
     </div>
