@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Loading from '../components/Loading';
+import Loading from 'components/Loading';
+import DisplayDateTime from 'components/DisplayDateTime';
 import { http, resolveUrl } from 'utils';
 import { ChapterRes } from '../types';
 import './ChapterView.less';
@@ -36,10 +37,10 @@ const ChapterView = () => {
 
   const renderBreadcrumbs = useCallback(
     () => (
-      <div className="breadcrumbs text-sm m-2 mb-6">
+      <div className="breadcrumbs text-sm m-2 mb-6 flex justify-between">
         <ul>
           {data?.path?.map((item: string, index) => (
-            <li key={item + index} className="cursor-pointer no-underline hover:underline mx-1">
+            <li key={item + index} className="cursor-pointer no-underline hover:underline">
               {item}
             </li>
           ))}
@@ -49,6 +50,7 @@ const ChapterView = () => {
             </a>
           </li>
         </ul>
+        <DisplayDateTime />
       </div>
     ),
     [data, bookId]
@@ -80,7 +82,7 @@ const ChapterView = () => {
   }, [data, bookId]);
 
   return (
-    <main className="container mx-auto p-4">
+    <main className="container mx-auto">
       {isLoading ? (
         <Loading />
       ) : (

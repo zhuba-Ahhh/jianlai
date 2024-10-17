@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Loading from 'components/Loading';
 import Switch from 'components/Switch';
+import DisplayDateTime from 'components/DisplayDateTime';
 import { http, resolveUrl } from 'utils';
 import { DirectoryRes } from 'types';
 import { useSearchParams } from 'react-router-dom';
@@ -42,14 +43,15 @@ const DirectoryView = () => {
 
   const renderBreadcrumbs = useCallback(
     () => (
-      <div className="breadcrumbs text-sm m-2 mb-6">
+      <div className="breadcrumbs text-sm m-2 mb-6 flex justify-between">
         <ul>
           {data?.info?.path?.map((item: string, index) => (
-            <li key={item + index} className="cursor-pointer">
+            <li key={item + index} className="cursor-pointer no-underline hover:underline">
               {item}
             </li>
           ))}
         </ul>
+        <DisplayDateTime />
       </div>
     ),
     [data]

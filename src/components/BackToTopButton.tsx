@@ -15,7 +15,7 @@ const BackToTopButton = () => {
 
   useEffect(() => {
     const handleScroll = throttle(() => {
-      if (window.pageYOffset > 100) {
+      if (document.documentElement.scrollTop > 500 || document.body.scrollTop > 500) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -30,7 +30,7 @@ const BackToTopButton = () => {
     isVisible && (
       <button
         onClick={scrollToTop}
-        className="fixed bottom-8 right-4 p-2 bg-[--modBgColor] text-e5e7eb rounded hover:bg-e5e7eb/90 focus:outline-none"
+        className="fixed bottom-8 right-4 p-2 bg-[--modBgColor] text-e5e7eb rounded hover:bg-e5e7eb/90 focus:outline-none border border-e5e7eb"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
