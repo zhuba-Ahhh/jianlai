@@ -31,7 +31,8 @@ const SearchPage = () => {
       const response = await http.get<ApiResponse>(
         `/search?keyword=${encodeURIComponent(searchTerm)}`
       );
-      setSearchResults(response);
+      console.log('[90m [ response ]-32-「views/SearchView.tsx」 [0m', response);
+      // setSearchResults(response);
     } catch (error) {
       console.error('搜索请求失败:', error);
       setSearchResults([]);

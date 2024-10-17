@@ -39,7 +39,7 @@ const ChapterView = () => {
       <div className="breadcrumbs text-sm m-2 mb-6">
         <ul>
           {data?.path?.map((item: string, index) => (
-            <li key={item + index} className="cursor-pointer no-underline hover:underline">
+            <li key={item + index} className="cursor-pointer no-underline hover:underline mx-1">
               {item}
             </li>
           ))}
@@ -80,13 +80,13 @@ const ChapterView = () => {
   }, [data, bookId]);
 
   return (
-    <main className="container mx-auto">
+    <main className="container mx-auto p-4">
       {isLoading ? (
         <Loading />
       ) : (
         <>
           {renderBreadcrumbs()}
-          <div className="bg-[--modBgColor] p-12 w-full max-w-[960px] mx-auto rounded-lg">
+          <div className="bg-[--modBgColor] p-6 md:p-12 w-full max-w-[960px] mx-auto rounded-lg">
             <h1 className="text-center text-3xl mb-6">{data?.title}</h1>
             {renderInfo()}
             {data?.content && (

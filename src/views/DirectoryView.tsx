@@ -127,7 +127,7 @@ const DirectoryView = () => {
       ) : (
         <>
           {renderBreadcrumbs()}
-          <div className="bg-[--modBgColor] p-12 w-full max-w-[960px] mx-auto rounded-lg">
+          <div className="bg-[--modBgColor] p-6 md:p-12 w-full max-w-[960px] mx-auto rounded-lg">
             <h1 className="text-center text-3xl mb-6">{data?.info?.title}</h1>
             {renderInfo()}
             <div className="w-full border-b border-dashed mt-3 mb-6" />

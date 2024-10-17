@@ -15,7 +15,7 @@ const Navbar = () => {
           { name: '剑来', path: '/' },
           { name: '雪中', path: '/xuezhong' },
           { name: '动漫', path: '/animation' },
-          { name: '浪漫', path: '/romantic' },
+          // { name: '浪漫', path: '/romantic' },
         ].map((item, index) => (
           <li key={index} className="hover:text-black transition duration-200 ease-in-out">
             <Link to={item.path}>{item.name}</Link>
