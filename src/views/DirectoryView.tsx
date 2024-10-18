@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import Loading from 'components/Loading';
-import Switch from 'components/Switch';
+// import Switch from 'components/Switch';
 import DisplayDateTime from 'components/DisplayDateTime';
 import { http, resolveUrl } from 'utils';
 import { DirectoryRes } from 'types';
 import { useSearchParams } from 'react-router-dom';
+import { NiXuIcon, ShunXuIcon } from 'assets/svg';
 
 const DirectoryView = () => {
   const [searchParams] = useSearchParams();
@@ -89,21 +90,37 @@ const DirectoryView = () => {
     () =>
       list?.map((volume, index) => (
         <div key={JSON.stringify(volume) + index} className={`${index !== 0 ? 'mt-8' : ''}`}>
-          <div className="flex items-center mb-4">
-            <em className="border-l-4 border-[#1f2937] pr-2 inline-block h-[17px]"></em>
-            <h2 className="text-2xl mr-2">{volume?.volume.name}</h2>
-            <span>
-              共{volume?.volume.chapterCount}
-              章·本卷共
-              {volume?.volume.totalWords}字
-            </span>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center">
+              <em className="border-l-4 border-[#1f2937] pr-2 inline-block h-[17px]"></em>
+              <h2 className="text-2xl mr-2">{volume?.volume.name}</h2>
+              <span>
+                共{volume?.volume.chapterCount}
+                章·本卷共
+                {volume?.volume.totalWords}字
+              </span>
+            </div>
             {index === 0 && (
               <>
-                <span className="ml-6">逆序：</span>
-                <Switch onChange={handleSwitchChange} defaultChecked={isChecked} />
+                {/* <span className="ml-6">逆序：</span>
+                <Switch onChange={handleSwitchChange} defaultChecked={isChecked} /> */}
+                <label className="swap swap-rotate ml-6">
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => handleSwitchChange(!isChecked)}
+                  />
+                  <div className="swap-on">
+                    <ShunXuIcon />
+                  </div>
+                  <div className="swap-off">
+                    <NiXuIcon />
+                  </div>
+                </label>
               </>
             )}
           </div>
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {volume?.chapters.map((chapter, index) => {
               const [id, chapterId] = resolveUrl(chapter.url);

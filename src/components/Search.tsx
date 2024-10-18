@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { SearchIcon } from 'assets/svg';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { http, truncateString } from 'utils';
