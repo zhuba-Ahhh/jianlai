@@ -11,7 +11,7 @@ export const truncateString = (
   maxLength: number = 12,
   trailing: string = '...'
 ): string => {
-  if (str.length > maxLength) {
+  if (str?.length > maxLength) {
     return str.substring(0, maxLength - trailing.length) + trailing;
   } else {
     return str;

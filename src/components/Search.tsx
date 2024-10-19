@@ -3,7 +3,8 @@
 import { SearchIcon } from 'assets/svg';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { http, truncateString } from 'utils';
-import { debounce } from 'lodash-es'; // 导入 debounce 方法
+import { debounce } from 'lodash-es';
+import { useNavigate } from 'react-router-dom'; // 导入 debounce 方法
 
 export type SearchInputProps = {
   placeholder?: string; // 输入框的占位符文本
@@ -68,6 +69,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   className = '',
   style = {},
 }) => {
+  const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState<Array<string>>([]);
   const [books, setBooks] = useState<Array<string>>([]);
   const [authors, setAuthors] = useState<Array<string>>([]);
@@ -102,7 +104,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
   };
 
   useEffect(() => {
-    console.log(inputValue, 'inputValue');
     const debouncedFetchSearch = debounce(() => {
       if (inputValue) {
         fetchSearchResults(inputValue);
@@ -137,11 +138,23 @@ const SearchInput: React.FC<SearchInputProps> = ({
           placeholder={currentPlaceholder || placeholder}
           onChange={handleInputChange} // 使用防抖后的函数
           onFocus={() => setShowSuggestions(true)}
-          onBlur={() => setShowSuggestions(false)}
+          onBlur={() =>
+            setTimeout(() => {
+              setShowSuggestions(false);
+            }, 500)
+          }
           value={inputValue}
           style={{ width: '100%' }} // 输入框宽度100%
         />
-        <SearchIcon />
+        <div
+          className="cursor-pointer"
+          onClick={(e) => {
+            e.preventDefault();
+            console.log(1111);
+          }}
+        >
+          <SearchIcon />
+        </div>
       </label>
       {showSuggestions && (
         <SuggestionsList
@@ -149,7 +162,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
           suggestions={suggestions}
           books={books}
           authors={authors}
-          setInputValue={(newValue: string) => setInputValue(newValue)}
+          setInputValue={(newValue: string) => {
+            setInputValue(newValue);
+            newValue && navigate(`search?keyword=${decodeURIComponent(newValue)}`);
+            setShowSuggestions(false);
+          }}
         />
       )}
     </div>
