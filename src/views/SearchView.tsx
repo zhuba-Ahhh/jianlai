@@ -3,7 +3,7 @@ import { http } from '../utils/request';
 import { uuid } from 'zhuba-tools';
 import { Author } from 'assets/svg';
 import { COVER_BASE_URL } from 'common/const';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export interface SearchBookData {
   datas?: Datas;
@@ -88,6 +88,7 @@ export interface RecDataList {
 
 const SearchPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const initialKeyword = queryParams.get('keyword') || ''; // 从路由参数获取初始值
   const [searchResults, setSearchResults] = useState<List[]>([]);
@@ -128,7 +129,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="mx-auto p-8 bg-gray-100 rounded-lg shadow-md">
+    <div className="mx-auto p-8">
       <form onSubmit={handleSearch} className="flex mb-8 justify-between w-full">
         <input
           type="text"
@@ -153,23 +154,26 @@ const SearchPage = () => {
       {loading ? (
         <p className="text-center text-blue-600">正在搜索...</p>
       ) : searchResults && searchResults.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center">
           {searchResults.map((result) => (
             <div
               key={uuid()}
               className="card card-compact hover:shadow-lg hover:rounded-lg transition-shadow duration-300 cursor-pointer bg-white rounded-lg w-full sm:w-auto max-w-xs" // 添加了最大宽度限制
+              onClick={() => {
+                navigate(`/directory?id=${result.bookId}`);
+              }}
             >
               <img
                 src={`${COVER_BASE_URL}${result.coverUrl}`}
                 alt={result.name}
-                className="w-full h-64 object-cover rounded-t-lg"
+                className="w-full object-cover rounded-t-lg"
               />
               <div className="card-body flex-col items-start p-4">
                 <h2 className="text-xl font-semibold mb-2">
                   <span dangerouslySetInnerHTML={{ __html: result.name }} />
                 </h2>
                 <p className="text-gray-700">
-                  <span dangerouslySetInnerHTML={{ __html: result.authorName }} /> |
+                  <span dangerouslySetInnerHTML={{ __html: result.authorName }} /> |{' '}
                   {result.catePName} | {result.totalWord}字
                 </p>
                 <p
@@ -179,13 +183,13 @@ const SearchPage = () => {
                 <div className="flex justify-between items-center w-full">
                   <a
                     href={`/directory?id=${result.bookId}`}
-                    className="text-blue-600 hover:underline mr-4 cursor-pointer"
+                    className="text-blue-600 hover:underline mr-4 cursor-pointer whitespace-nowrap"
                   >
                     目录
                   </a>
                   <a
                     href={`/chapter?id=${result.bookId}&chapterId=${result.chapterId}`}
-                    className="text-blue-600 hover:underline mr-4 cursor-pointer"
+                    className="text-blue-600 hover:underline cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis"
                   >
                     最新：{result.chapterName}
                   </a>

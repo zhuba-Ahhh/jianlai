@@ -80,7 +80,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
   useEffect(() => {
     const fetchSuggestions = async () => {
-      fetchSearchResults('', false);
+      fetchSearchResults('');
       setCurrentPlaceholder(truncateString(books?.[0] || ''));
     };
     fetchSuggestions();
@@ -117,12 +117,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
     };
   }, [inputValue]); // 依赖于 inputValue
 
-  const fetchSearchResults = async (value: string, isShow = true) => {
+  const fetchSearchResults = async (value: string) => {
     const res = await http.get<ResSearchSuggest>(`/search/suggest?keyword=${value}`);
     setBooks(res?.books || []);
     setAuthors(res?.authors || []);
     setSuggestions(res?.books || []);
-    setShowSuggestions(isShow);
   };
 
   return (
@@ -150,7 +149,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
           className="cursor-pointer"
           onClick={(e) => {
             e.preventDefault();
-            console.log(1111);
           }}
         >
           <SearchIcon />
