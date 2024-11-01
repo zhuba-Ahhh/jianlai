@@ -5,12 +5,35 @@ import { http, resolveUrl } from 'utils';
 import { ChapterRes } from '../types';
 import './ChapterView.less';
 import { useSearchParams } from 'react-router-dom';
+import NProgress from 'nprogress';
 
 const ChapterView = () => {
   const [searchParams] = useSearchParams();
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<ChapterRes | null>(null);
+
+  const scrollHeight = () =>
+    document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+  const calculateScrollDistance = useCallback(() => {
+    const scrollTop = document.documentElement.scrollTop;
+    const percentage = (scrollTop / scrollHeight()) * 100;
+    if (percentage > 0) {
+      NProgress.set(percentage / 100);
+    } else {
+      NProgress.done();
+    }
+  }, []);
+
+  useEffect(() => {
+    NProgress.start();
+    window.addEventListener('scroll', calculateScrollDistance);
+    return () => {
+      window.removeEventListener('scroll', calculateScrollDistance);
+      NProgress.done();
+    };
+  }, [calculateScrollDistance]);
 
   useEffect(() => {
     const id = searchParams.get('id') || '';
