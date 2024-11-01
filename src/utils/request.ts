@@ -6,6 +6,7 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+import NProgress from 'nprogress';
 
 /* 服务器返回数据的的类型，根据接口文档确定 */
 export interface Result<T = unknown> {
@@ -26,9 +27,11 @@ const service: AxiosInstance = axios.create({
 /* 请求拦截器 */
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig<unknown>) => {
+    NProgress.start();
     return config;
   },
   (error: AxiosError) => {
+    NProgress.done();
     console.error(error.message);
     return Promise.reject(error);
   }
@@ -37,6 +40,7 @@ service.interceptors.request.use(
 /* 响应拦截器 */
 service.interceptors.response.use(
   (response: AxiosResponse) => {
+    NProgress.done();
     const { code, message, data } = response.data;
 
     // 根据自定义错误码判断请求是否成功
@@ -50,6 +54,7 @@ service.interceptors.response.use(
     }
   },
   (error: AxiosError) => {
+    NProgress.done();
     // 处理 HTTP 网络错误
     let message = '';
     // HTTP 状态码
