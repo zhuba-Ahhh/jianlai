@@ -30,7 +30,7 @@ const BackToTopButton = () => {
     isVisible && (
       <button
         onClick={scrollToTop}
-        className="fixed bottom-8 right-4 p-2 bg-[--modBgColor] text-e5e7eb rounded hover:bg-e5e7eb/90 focus:outline-none border border-e5e7eb"
+        className="fixed bottom-8 right-4 p-2 bg-background-secondary text-text-primary rounded-md hover:bg-background-secondary/90 focus:outline-none border border-border"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

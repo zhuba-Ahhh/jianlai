@@ -20,7 +20,7 @@ const ChapterView = () => {
     const scrollTop = document.documentElement.scrollTop;
     const percentage = (scrollTop / scrollHeight()) * 100;
     if (percentage > 0) {
-      NProgress.set(percentage / 100);
+      NProgress.set(percentage / 100 - 0.0000001);
     } else {
       NProgress.done();
     }

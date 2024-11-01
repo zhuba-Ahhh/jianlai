@@ -158,7 +158,7 @@ const BookView = () => {
             <div className="card-body">
               <h3 className="text-lg font-semibold cursor-pointer">
                 <a
-                  className="link link-hover text-blue-600 hover:text-blue-800 transition-colors no-underline hover:no-underline"
+                  className="link link-hover text-primary hover:text-primary-dark transition-colors no-underline hover:no-underline"
                   onClick={() => {
                     JumpToBookChapter(getLastNumbersFromUrl(chapter.url).join('-'));
                   }}

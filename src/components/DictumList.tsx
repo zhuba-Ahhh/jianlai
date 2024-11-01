@@ -16,7 +16,7 @@ const DictumList = (props: { origin?: string; dictums?: dictumsType; onClick?: (
       {dictums.map((dictum, index) => (
         <div key={uuid()} data-swapy-slot={index} className="h-full cursor-pointer">
           <div
-            className="p-8 bg-white rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 border border-gray-300 transform hover:-translate-y-1 hover:scale-105"
+            className="p-8 bg-background-primary rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-border transform hover:-translate-y-1 hover:scale-105"
             data-swapy-item={dictum}
             onClick={() => onClick && onClick()}
           >

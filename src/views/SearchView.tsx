@@ -135,7 +135,7 @@ const SearchPage = () => {
           type="text"
           name="search"
           placeholder="输入书名搜索"
-          className="input input-bordered w-full mr-4 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="input input-bordered w-full mr-4 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={(e) => {
