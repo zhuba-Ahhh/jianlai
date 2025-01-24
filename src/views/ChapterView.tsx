@@ -61,14 +61,30 @@ const ChapterView = () => {
           title: res.title,
           timestamp: new Date().toISOString(),
         };
-        localStorage.setItem('lastReadingRecord', JSON.stringify(readingRecord));
+
+        // 获取现有的阅读记录
+        const existingRecords = localStorage.getItem('readingRecords');
+        let records = existingRecords ? JSON.parse(existingRecords) : [];
+
+        // 移除同一本书的旧记录
+        records = records.filter((record: { bookId: string }) => record.bookId !== bookId);
+
+        // 添加新记录
+        records.push(readingRecord);
+
+        // 限制记录数量，保留最新的 10 条
+        if (records.length > 10) {
+          records = records.slice(-10);
+        }
+
+        localStorage.setItem('readingRecords', JSON.stringify(records));
       });
     }
   }, [bookId, url]);
 
   const renderBreadcrumbs = useCallback(
     () => (
-      <div className="breadcrumbs text-sm m-2 mb-8 flex justify-between bg-base-200/50 p-3 rounded-lg backdrop-blur-sm">
+      <div className="breadcrumbs text-sm mx-4 mb-10 flex justify-between bg-base-200/50 p-4 rounded-xl backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
         <ul className="flex gap-2">
           {data?.path?.map((item: string, index) => (
             <li
@@ -143,12 +159,12 @@ const ChapterView = () => {
     const [id, chapterId] = resolveUrl(data?.preUrl || '');
     const [id1, chapterId1] = resolveUrl(data?.nextUrl || '');
     return (
-      <div className="flex mx-auto mt-6 w-full max-w-[960px] bg-base-200/50 backdrop-blur-sm rounded-lg justify-evenly items-center h-14 shadow-sm hover:shadow-md transition-all duration-300">
-        <div>
+      <div className="mt-8 flex mx-auto w-full max-w-[800px] bg-base-100/95 backdrop-blur-sm rounded-xl justify-evenly items-center h-16 shadow-lg hover:shadow-xl transition-all duration-300 px-8">
+        <div className="flex-1 flex justify-center">
           {id && (
             <a
               href={`/chapter?id=${id}&chapterId=${chapterId}`}
-              className="btn btn-primary btn-outline hover:scale-105 transition-transform duration-300"
+              className="btn btn-primary btn-outline hover:scale-105 hover:shadow-md transition-all duration-300 min-w-[120px]"
               onClick={() =>
                 updateReadingRecord(`/chapter?id=${id}&chapterId=${chapterId}`, data?.title || '')
               }
@@ -157,19 +173,19 @@ const ChapterView = () => {
             </a>
           )}
         </div>
-        <div>
+        <div className="flex-1 flex justify-center">
           <a
             href={`/directory?id=${bookId}`}
-            className="btn btn-ghost hover:text-primary transition-colors duration-300"
+            className="btn btn-ghost hover:text-primary hover:bg-base-100/50 transition-all duration-300 min-w-[120px]"
           >
             目录
           </a>
         </div>
-        <div>
+        <div className="flex-1 flex justify-center">
           {id1 && (
             <a
               href={`/chapter?id=${id1}&chapterId=${chapterId1}`}
-              className="btn btn-primary btn-outline hover:scale-105 transition-transform duration-300"
+              className="btn btn-primary btn-outline hover:scale-105 hover:shadow-md transition-all duration-300 min-w-[120px]"
               onClick={() =>
                 updateReadingRecord(`/chapter?id=${id1}&chapterId=${chapterId1}`, data?.title || '')
               }
@@ -189,17 +205,17 @@ const ChapterView = () => {
       ) : (
         <div className="opacity-0 animate-fadeIn">
           {renderBreadcrumbs()}
-          <div className="bg-base-100/95 backdrop-blur-sm p-6 md:p-12 w-full max-w-[960px] mx-auto rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
-            <h1 className="text-center text-3xl mb-8 font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+          <div className="bg-base-100/95 backdrop-blur-sm p-8 md:p-16 w-full max-w-[800px] mx-auto rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl">
+            <h1 className="text-center text-4xl mb-10 font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wide">
               {data?.title}
             </h1>
             {renderInfo()}
             {data?.content && (
               <>
-                <div className="w-full border-b border-base-content/10 my-6" />
+                <div className="w-full border-b border-base-content/10 my-8" />
                 <div
                   dangerouslySetInnerHTML={{ __html: data?.content }}
-                  className="content prose prose-lg max-w-none leading-relaxed"
+                  className="content prose prose-lg max-w-none leading-relaxed prose-headings:text-primary prose-p:text-base-content/90 prose-p:leading-8 prose-p:my-6"
                 />
               </>
             )}

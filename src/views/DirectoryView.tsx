@@ -18,12 +18,16 @@ const DirectoryView = () => {
 
   useEffect(() => {
     setId(searchParams.get('id') || '');
-    // 获取上次阅读记录
-    const record = localStorage.getItem('lastReadingRecord');
-    if (record) {
-      const parsedRecord = JSON.parse(record);
-      if (parsedRecord.bookId === (searchParams.get('id') || '')) {
-        setLastReadingRecord(parsedRecord);
+    // 获取阅读记录列表
+    const records = localStorage.getItem('readingRecords');
+    if (records) {
+      const parsedRecords = JSON.parse(records);
+      // 查找当前书籍的阅读记录
+      const currentBookRecord = parsedRecords.find(
+        (record: { bookId: string }) => record.bookId === (searchParams.get('id') || '')
+      );
+      if (currentBookRecord) {
+        setLastReadingRecord(currentBookRecord);
       }
     }
   }, [searchParams]);

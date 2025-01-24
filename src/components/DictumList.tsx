@@ -16,14 +16,14 @@ const DictumList = (props: { origin?: string; dictums?: dictumsType; onClick?: (
       {dictums.map((dictum, index) => (
         <div key={uuid()} data-swapy-slot={index} className="h-full cursor-pointer">
           <div
-            className="p-8 bg-background-primary rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-border transform hover:-translate-y-1 hover:scale-105"
+            className="p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-2 hover:scale-102"
             data-swapy-item={dictum}
             onClick={() => onClick && onClick()}
           >
-            <p className="text-lg font-semibold text-gray-900 leading-relaxed">
+            <p className="text-xl font-medium text-gray-800 leading-relaxed mb-4">
               {typeof dictum === 'string' ? dictum : dictum.dictum}
             </p>
-            <p className="text-right text-[#6f7070]">
+            <p className="text-right text-gray-500 text-sm italic">
               —— {typeof dictum === 'string' ? origin : dictum.origin || '佚名'}
             </p>
           </div>
