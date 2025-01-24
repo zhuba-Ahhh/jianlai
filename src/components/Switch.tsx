@@ -35,7 +35,7 @@ const Switch: React.FC<SwitchProps> = ({
     <input
       type="checkbox"
       style={style}
-      className={`toggle toggle-${color} toggle-${size} ${className}`}
+      className={`toggle toggle-${color} toggle-${size} ${className} transition-all duration-300 ease-in-out transform hover:scale-105`}
       onChange={handleToggle}
       checked={checked} // 使用受控的checked属性
     />

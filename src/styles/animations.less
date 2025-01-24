@@ -1,0 +1,129 @@
+/* 淡入淡出动画 */
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+
+/* 滑动动画 */
+.slide-enter {
+  transform: translateX(100%);
+}
+.slide-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+}
+.slide-exit {
+  transform: translateX(0);
+}
+.slide-exit-active {
+  transform: translateX(-100%);
+  transition: transform 300ms ease-in-out;
+}
+
+/* 缩放动画 */
+.scale-enter {
+  transform: scale(0.9);
+  opacity: 0;
+}
+.scale-enter-active {
+  transform: scale(1);
+  opacity: 1;
+  transition: all 300ms ease-out;
+}
+.scale-exit {
+  transform: scale(1);
+  opacity: 1;
+}
+.scale-exit-active {
+  transform: scale(0.9);
+  opacity: 0;
+  transition: all 300ms ease-in;
+}
+
+/* 按钮点击效果 */
+.btn-press {
+  transition: transform 0.1s ease;
+}
+.btn-press:active {
+  transform: scale(0.95);
+}
+
+/* 悬浮效果 */
+.hover-float {
+  transition: transform 0.3s ease;
+}
+.hover-float:hover {
+  transform: translateY(-4px);
+}
+
+/* 列表项动画 */
+.list-item-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.list-item-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 300ms ease-out;
+}
+.list-item-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.list-item-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 300ms ease-in;
+}
+
+/* 页面切换动画 */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 400ms ease-out;
+}
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 400ms ease-in;
+}
+
+/* 渐变动画 */
+.gradient-bg {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 3s ease infinite;
+}
+
+/* 脉冲动画 */
+.pulse-effect {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 旋转动画 */
+.rotate-element {
+  animation: rotate 2s linear infinite;
+}
+
+/* 摆动动画 */
+.wiggle-element {
+  animation: wiggle 1s ease-in-out infinite;
+}

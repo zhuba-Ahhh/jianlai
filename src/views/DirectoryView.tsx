@@ -127,9 +127,14 @@ const DirectoryView = () => {
               return (
                 <div
                   key={JSON.stringify(chapter) + index}
-                  className="col-span-1 cursor-pointer truncate"
+                  className="col-span-1 cursor-pointer truncate opacity-0 animate-fadeIn hover:translate-y-[-4px] transition-transform duration-300 ease-in-out"
                 >
-                  <a href={`/chapter?id=${id}&chapterId=${chapterId}`}>{chapter.name}</a>
+                  <a
+                    href={`/chapter?id=${id}&chapterId=${chapterId}`}
+                    className="hover:text-primary transition-colors duration-300"
+                  >
+                    {chapter.name}
+                  </a>
                 </div>
               );
             })}
@@ -140,19 +145,19 @@ const DirectoryView = () => {
   );
 
   return (
-    <main className="container mx-auto">
+    <main className="container mx-auto transition-all duration-300 ease-in-out">
       {isLoading ? (
         <Loading />
       ) : (
-        <>
+        <div className="opacity-0 animate-fadeIn">
           {renderBreadcrumbs()}
-          <div className="bg-[--modBgColor] p-6 md:p-12 w-full max-w-[960px] mx-auto rounded-lg">
-            <h1 className="text-center text-3xl mb-6">{data?.info?.title}</h1>
+          <div className="bg-[--modBgColor] p-6 md:p-12 w-full max-w-[960px] mx-auto rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
+            <h1 className="text-center text-3xl mb-6 animate-fadeIn">{data?.info?.title}</h1>
             {renderInfo()}
             <div className="w-full border-b border-dashed mt-3 mb-6" />
             {renderVolumeList()}
           </div>
-        </>
+        </div>
       )}
     </main>
   );

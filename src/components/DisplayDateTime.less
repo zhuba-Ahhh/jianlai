@@ -1,15 +1,37 @@
 @keyframes countdownAnimation {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
+  0% {
+    transform: translateY(-100%) scale(0.8);
+    opacity: 0.5;
+    filter: blur(2px);
   }
-  to {
-    transform: translateY(0);
+  50% {
+    transform: translateY(-50%) scale(0.9);
+    opacity: 0.8;
+    filter: blur(1px);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes separatorPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
     opacity: 1;
   }
 }
 
 .countdown {
   display: inline-block;
-  animation: countdownAnimation 0.5s ease-in-out forwards;
+  animation: countdownAnimation 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  min-width: 1em;
+  text-align: center;
+}
+
+.mx-1 {
+  animation: separatorPulse 1.5s ease-in-out infinite;
 }

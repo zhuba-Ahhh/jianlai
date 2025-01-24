@@ -47,7 +47,7 @@ const SuggestionsList: React.FC<{
   authors: Array<string>;
   setInputValue: (value: string) => void;
 }> = ({ inputValue, suggestions, books, authors, setInputValue }) => (
-  <ul className="absolute mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+  <ul className="absolute mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto opacity-0 animate-slideDown">
     {!inputValue ? (
       <ListSection title="大家都在搜" items={suggestions} onItemClick={setInputValue} />
     ) : (
