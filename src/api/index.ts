@@ -20,7 +20,7 @@ const instance: AxiosInstance = axios.create({
   validateStatus: (status) => status >= 200 && status < 400,
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? 'https://novel-api-psi.vercel.app'
+      ? 'https://novel-api-nu.vercel.app'
       : 'http://localhost:3100',
 });
 
